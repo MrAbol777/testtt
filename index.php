@@ -1,11 +1,11 @@
 <?php
 session_start();
 
-// اتصال به دیتابیس (از db.php)
-$host = 'sql101.infinityfree.com';
-$db   = 'if0_42285735_online_shop_demo';
-$user = 'if0_42285735';
-$pass = '5LK1kA2lpzOA';
+// اتصال به دیتابیس (MySQL داخلی کانتینر)
+$host = 'db';
+$db   = 'online_shop';
+$user = 'shop_user';
+$pass = 'shop_password';
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$db;charset=utf8mb4", $user, $pass, [

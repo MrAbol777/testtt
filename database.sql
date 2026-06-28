@@ -5,7 +5,7 @@ CREATE TABLE `products` (
     `description` TEXT NULL,
     `price` DECIMAL(10,2) NOT NULL DEFAULT 0.00,
     `stock` INT NOT NULL DEFAULT 0,
-    `image` VARCHAR(255) NULL
+    `image_url` VARCHAR(255) NULL
 ) ENGINE=InnoDB;
 
 -- 2) Table: customers
@@ -48,17 +48,17 @@ CREATE TABLE `order_items` (
 
 -- Sample Data Insertion
 -- Add 2 products
-INSERT INTO `products` (`name`, `description`, `price`, `stock`) VALUES 
-('Classic White T-Shirt', '100% Cotton basic tee', 19.99, 100),
-('Slim Fit Jeans', 'Dark blue denim jeans', 49.90, 50);
+INSERT INTO `products` (`name`, `description`, `price`, `stock`, `image_url`) VALUES
+('Classic White T-Shirt', '100% Cotton basic tee', 19.99, 100, 'https://via.placeholder.com/200?text=T-Shirt'),
+('Slim Fit Jeans', 'Dark blue denim jeans', 49.90, 50, 'https://via.placeholder.com/200?text=Jeans');
 
 -- Add 1 customer
 INSERT INTO `customers` (`name`, `email`, `phone`) VALUES 
 ('John Doe', 'john.doe@example.com', '+123456789');
 
 -- Add 1 order
-INSERT INTO `orders` (`customer_id`, `total_amount`, `status`) VALUES 
-(1, 89.88, 'Pending');
+INSERT INTO `orders` (`customer_id`, `order_date`, `total_amount`, `status`) VALUES
+(1, NOW(), 89.88, 'Pending');
 
 -- Add 2 order items (linked to order id 1)
 INSERT INTO `order_items` (`order_id`, `product_id`, `quantity`, `price_at_order`) VALUES 
