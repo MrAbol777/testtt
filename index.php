@@ -1,21 +1,24 @@
 <?php
 session_start();
 
-// اتصال به دیتابیس
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "online_shop_demo";
+// اتصال به دیتابیس (از db.php)
+$host = 'sql101.infinityfree.com';
+$db   = 'if0_42285735_online_shop_demo';
+$user = 'if0_42285735';
+$pass = '5LK1kA2lpzOA';
 
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-if ($conn->connect_error) {
-    die("اتصال برقرار نشد: " . $conn->connect_error);
+try {
+    $pdo = new PDO("mysql:host=$host;dbname=$db;charset=utf8mb4", $user, $pass, [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+    ]);
+} catch (PDOException $e) {
+    die("خطا در اتصال به دیتابیس: " . $e->getMessage());
 }
 
 // دریافت لیست محصولات
 $sql = "SELECT id, name, description, price, image_url FROM products";
-$result = $conn->query($sql);
+$result = $pdo->query($sql);
 ?>
 
 <!DOCTYPE html>
@@ -57,8 +60,8 @@ $result = $conn->query($sql);
 
     <div class="product-grid">
         <?php
-        if ($result->num_rows > 0) {
-            while($row = $result->fetch_assoc()) {
+        if ($result->rowCount() > 0) {
+            while($row = $result->fetch()) {
                 ?>
                 <div class="product-card">
                     <!-- لود عکس از مسیر ذخیره شده در دیتابیس (مثلاً Images/1.jpg) -->
@@ -87,4 +90,7 @@ $result = $conn->query($sql);
 
 </body>
 </html>
-<?php $conn->close(); ?>
+<?php
+// PDO اتصال خودکار بسته میشه
+$pdo = null;
+?>
