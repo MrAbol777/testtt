@@ -1,8 +1,8 @@
 <?php
-$host = 'localhost';
-$db   = 'online_shop_demo';
-$user = 'root';
-$pass = '';
+$host = 'sql101.infinityfree.com';
+$db   = 'if0_42285735_online_shop_demo';
+$user = 'if0_42285735';
+$pass = '5LK1kA2lpzOA';
 
 try {
     // ایجاد اتصال با استفاده از کتابخانه PDO

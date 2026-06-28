@@ -1,0 +1,63 @@
+# ============================================
+# docker-compose برای فروشگاه آنلاین PHP
+# ============================================
+
+version: '3.8'
+
+services:
+  # سرویس PHP + Apache
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: online_shop_web
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_NAME=online_shop
+      - DB_USER=shop_user
+      - DB_PASS=shop_password
+
+  # سرویس MySQL
+  db:
+    image: mysql:8.0
+    container_name: online_shop_db
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: online_shop
+      MYSQL_USER: shop_user
+      MYSQL_PASSWORD: shop_password
+    ports:
+      - "3307:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./database.sql:/docker-entrypoint-initdb.d/database.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # phpMyAdmin (اختیاری)
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: online_shop_phpmyadmin
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: db
+      PMA_USER: root
+      PMA_PASSWORD: root_password
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  db_data:

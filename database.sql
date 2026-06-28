@@ -1,10 +1,3 @@
--- Database creation
-CREATE DATABASE IF NOT EXISTS `online_shop_demo` 
-CHARACTER SET utf8mb4 
-COLLATE utf8mb4_unicode_ci;
-
-USE `online_shop_demo`;
-
 -- 1) Table: products
 CREATE TABLE `products` (
     `id` INT AUTO_INCREMENT PRIMARY KEY,
